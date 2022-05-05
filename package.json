@@ -28,5 +28,11 @@
         "eslint-plugin-import": "^2.26.0",
         "husky": "^7.0.4",
         "prettier": "^2.6.2"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": ["npm run eslint","npm run format"],
+            "pre-push": []
+            }  
+        }
     }
-}
