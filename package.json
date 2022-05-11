@@ -31,14 +31,8 @@
     },
     "husky": {
         "hooks": {
-            "pre-commit": [
-                "npm run eslint",
-                "npm run format"
-            ],
-            "pre-push": [
-                "npm run eslint",
-                "npm run format"
-            ]
+            "pre-commit": "npm run eslint && npm run format",
+            "pre-push": "npm run eslint && npm run format"
         }
     },
     "dependencies": {
