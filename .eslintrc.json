@@ -8,5 +8,7 @@
   "parserOptions": {
     "ecmaVersion": "latest"
   },
-  "rules": {}
+  "rules": {
+    "comma-dangle": ["error", "never"]
+  }
 }
