@@ -40,5 +40,8 @@
                 "npm run format"
             ]
         }
+    },
+    "dependencies": {
+        "express": "^4.18.1"
     }
 }
