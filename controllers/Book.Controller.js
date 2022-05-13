@@ -1,4 +1,5 @@
 const https = require('https');
+
 exports.getAllBooks = async (req, res, next) => {
   try {
     const books = [
@@ -21,7 +22,7 @@ exports.createBook = async (req, res, next) => {
   try {
     //const title = req.body.title;
     const book = {
-      title : "",
+      title: '',
       author: 'Temp'
     };
     res.send(req.body);
@@ -77,15 +78,15 @@ exports.getRandomBook = async (req, res) => {
   const reqRand = https.request(options, (resp) => {
     let data = '';
 
-  resp.on('data', (chunk) => {
-    data += chunk;
-  });
+    resp.on('data', (chunk) => {
+      data += chunk;
+    });
 
     resp.on('end', () => {
       const booksPage = JSON.parse(data).results;
-      const randombookIndx = Math.ceil (Math.random() * booksPage.length) ;
+      const randombookIndx = Math.ceil(Math.random() * booksPage.length);
       randombook = booksPage[randombookIndx];
-      console.log (booksPage[randombookIndx]);
+      console.log(booksPage[randombookIndx]);
     });
   });
   reqRand.on('error', (error) => {
