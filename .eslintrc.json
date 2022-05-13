@@ -10,5 +10,12 @@
   },
   "rules": {
     "comma-dangle": ["error", "never"]
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["src"]
+      }
+    }
   }
 }

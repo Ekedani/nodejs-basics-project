@@ -10,7 +10,8 @@
     "eslint": "eslint \"**/*.js\" --ignore-path .gitignore",
     "eslint:fix": "eslint \"**/*.js\" --fix --ignore-path .gitignore",
     "format": "prettier --check . --ignore-path .gitignore",
-    "format:fix": "prettier --write . --ignore-path .gitignore"
+    "format:fix": "prettier --write . --ignore-path .gitignore",
+    "fixAll": "npm run format:fix && npm run eslint:fix"
   },
   "repository": {
     "type": "git",
