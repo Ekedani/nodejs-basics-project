@@ -18,12 +18,11 @@ exports.getAllUsers = async (req, res, next) => {
 
 exports.createUser = async (req, res, next) => {
   try {
-    //const title = req.body.title;
     const user = {
-      id: Math.round(Math.random * 1000),
-      name: `Stepan(${id})`
+      id: 'Temp ID',
+      name: 'Stepan'
     };
-    res.send(req.body);
+    res.send(user);
   } catch (err) {
     next(err);
   }

@@ -3,7 +3,7 @@ const BookController = require('../controllers/Book.Controller');
 
 const router = express.Router();
 
-router.get('/randombook/', BookController.getRandomBook);
+router.get('/random', BookController.getRandomBook);
 router.get('/', BookController.getAllBooks);
 router.get('/:id', BookController.findBookById);
 router.post('/', BookController.createBook);

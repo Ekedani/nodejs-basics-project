@@ -20,12 +20,11 @@ exports.getAllBooks = async (req, res, next) => {
 
 exports.createBook = async (req, res, next) => {
   try {
-    //const title = req.body.title;
     const book = {
-      title: '',
+      title: 'Temp Title',
       author: 'Temp'
     };
-    res.send(req.body);
+    res.send(book);
   } catch (err) {
     next(err);
   }
@@ -68,7 +67,6 @@ exports.updateBook = async (req, res, next) => {
 };
 
 exports.getRandomBook = async (req, res) => {
-  let randombook;
   const pageNum = Math.floor(Math.random() * 2142 + 1);
   const options = {
     hostname: 'gutendex.com',
@@ -84,9 +82,8 @@ exports.getRandomBook = async (req, res) => {
 
     resp.on('end', () => {
       const booksPage = JSON.parse(data).results;
-      const randombookIndx = Math.ceil(Math.random() * booksPage.length);
-      randombook = booksPage[randombookIndx];
-      console.log(booksPage[randombookIndx]);
+      const randomBookIdx = Math.ceil(Math.random() * booksPage.length);
+      res.send(booksPage[randomBookIdx]);
     });
   });
   reqRand.on('error', (error) => {
