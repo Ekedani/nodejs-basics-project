@@ -1,3 +1,4 @@
+const https = require('https');
 exports.getAllBooks = async (req, res, next) => {
   try {
     const books = [
@@ -18,11 +19,12 @@ exports.getAllBooks = async (req, res, next) => {
 
 exports.createBook = async (req, res, next) => {
   try {
+    //const title = req.body.title;
     const book = {
-      title: 'Created Book',
+      title : "",
       author: 'Temp'
     };
-    res.send(book);
+    res.send(req.body);
   } catch (err) {
     next(err);
   }
@@ -62,4 +64,32 @@ exports.updateBook = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+};
+
+exports.getRandomBook = async (req, res) => {
+  let randombook;
+  const pageNum = Math.floor(Math.random() * 2142 + 1);
+  const options = {
+    hostname: 'gutendex.com',
+    path: `/books/?page=${pageNum}`,
+    method: 'GET'
+  };
+  const reqRand = https.request(options, (resp) => {
+    let data = '';
+
+  resp.on('data', (chunk) => {
+    data += chunk;
+  });
+
+    resp.on('end', () => {
+      const booksPage = JSON.parse(data).results;
+      const randombookIndx = Math.ceil (Math.random() * booksPage.length) ;
+      randombook = booksPage[randombookIndx];
+      console.log (booksPage[randombookIndx]);
+    });
+  });
+  reqRand.on('error', (error) => {
+    res.send(error);
+  });
+  reqRand.end();
 };

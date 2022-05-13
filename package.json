@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js",
     "prepare": "husky install",
     "eslint": "eslint \"**/*.js\" --ignore-path .gitignore",
     "eslint:fix": "eslint \"**/*.js\" --fix --ignore-path .gitignore",
