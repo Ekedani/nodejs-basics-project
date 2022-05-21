@@ -1,8 +1,8 @@
 const express = require('express');
-const BookController = require('../controllers/Book.Controller');
+const BookController = require('../controllers/Random.Controller');
 
 const router = express.Router();
 
-router.get('/book', BookController.getRandomBook);
+router.get('/random', BookController.getRandomBook);
 
 module.exports = router;
