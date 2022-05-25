@@ -14,4 +14,8 @@ Technologies used:
   and still help us build efficient web applications
 - **MongoDB** – (the final decision will be made when developing laboratory work #3) ...
 
+## Database architecture
+
+![Alt text](C:\Users\polis\Desktop\study_related\2year2semester\Node\nodejs-basics-project\databaseArchitecture\book.drawio.png?raw=true 'Book')
+
 _To be continued..._
