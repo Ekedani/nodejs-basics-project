@@ -16,6 +16,8 @@ Technologies used:
 
 ## Database architecture
 
-![Alt text](C:\Users\polis\Desktop\study_related\2year2semester\Node\nodejs-basics-project\databaseArchitecture\book.drawio.png?raw=true 'Book')
+![Alt text](./databaseArchitecture/book.drawio.png?raw=true 'Book')
+
+![Alt text](./databaseArchitecture/user.drawio.png?raw=true 'Book')
 
 _To be continued..._
