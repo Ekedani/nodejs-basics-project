@@ -1,13 +1,13 @@
 const express = require('express');
 const bookRoutes = require('../routes/Book.Route');
 const userRoutes = require('../routes/User.Route');
-const randomBook = require('../routes/RandomBook.Route');
+const recommendationRoutes = require('../routes/Recommendation.Route');
 
 const app = express();
 
 app.use('/books', bookRoutes);
-app.use('/random', randomBook);
 app.use('/users', userRoutes);
+app.use('/recommendation', recommendationRoutes);
 
 app.get('/', (req, res) => {
   res.send({
