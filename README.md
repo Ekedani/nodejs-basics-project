@@ -18,6 +18,10 @@ Technologies used:
 
 ![Alt text](./databaseArchitecture/book.drawio.png?raw=true 'Book')
 
-![Alt text](./databaseArchitecture/user.drawio.png?raw=true 'Book')
+![Alt text](./databaseArchitecture/user.drawio.png?raw=true 'User')
+
+![Alt text](./databaseArchitecture/role.drawio.png?raw=true 'Role')
+
+![Alt text](./databaseArchitecture/generalArchitecture.drawio.png?raw=true 'General Architecture')
 
 _To be continued..._
