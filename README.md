@@ -16,12 +16,14 @@ Technologies used:
 
 ## Database architecture
 
-![Alt text](./databaseArchitecture/book.drawio.png?raw=true 'Book')
+![Book schema](./database/databaseArchitecture/book.drawio.png?raw=true 'Book')
 
-![Alt text](./databaseArchitecture/user.drawio.png?raw=true 'User')
+---
 
-![Alt text](./databaseArchitecture/role.drawio.png?raw=true 'Role')
+![User and role schema](./database/databaseArchitecture/user_role.drawio.png?raw=true 'User and Role')
 
-![Alt text](./databaseArchitecture/generalArchitecture.drawio.png?raw=true 'General Architecture')
+---
+
+![Genral schema](./database/databaseArchitecture/generalArchitecture.drawio.png?raw=true 'General Architecture')
 
 _To be continued..._
