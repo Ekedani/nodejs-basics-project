@@ -19,7 +19,6 @@ exports.getAllUsers = async (req, res, next) => {
 exports.createUser = async (req, res, next) => {
   try {
     const user = {
-      id: 'Temp ID',
       name: 'Stepan'
     };
     res.send(user);
@@ -30,8 +29,9 @@ exports.createUser = async (req, res, next) => {
 
 exports.findUserById = async (req, res, next) => {
   try {
+    const { id } = req.params;
     const user = {
-      id: 'foundID',
+      id,
       name: 'found Stepan'
     };
     res.send(user);
@@ -42,8 +42,9 @@ exports.findUserById = async (req, res, next) => {
 
 exports.deleteUser = async (req, res, next) => {
   try {
+    const { id } = req.params;
     const user = {
-      id: 'deleated ID',
+      id,
       name: 'deleated Stepan'
     };
     res.send(user);
@@ -54,8 +55,9 @@ exports.deleteUser = async (req, res, next) => {
 
 exports.updateUser = async (req, res, next) => {
   try {
+    const { id } = req.params;
     const user = {
-      id: 'updated ID',
+      id,
       name: 'updated Stepan'
     };
     res.send(user);

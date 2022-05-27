@@ -30,7 +30,9 @@ exports.createBook = async (req, res, next) => {
 
 exports.findBookById = async (req, res, next) => {
   try {
+    const { id } = req.params;
     const book = {
+      id,
       title: 'Found Book',
       author: 'Temp'
     };
@@ -42,7 +44,9 @@ exports.findBookById = async (req, res, next) => {
 
 exports.deleteBook = async (req, res, next) => {
   try {
+    const { id } = req.params;
     const book = {
+      id,
       title: 'Deleted Book',
       author: 'Temp'
     };
@@ -54,7 +58,9 @@ exports.deleteBook = async (req, res, next) => {
 
 exports.updateBook = async (req, res, next) => {
   try {
+    const { id } = req.params;
     const book = {
+      id,
       title: 'Updated Book',
       author: 'Temp'
     };
