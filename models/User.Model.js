@@ -7,16 +7,20 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
+  passwordHesh: {
+    type: Number,
+    required: true
+  },
   email: {
     type: String,
     required: true,
     unique: true
   },
-  passwordHesh: {
-    type: String,
+  roleID: {
+    type: Number,
     required: true
   }
 });
 
-const User = mongoose.model('user', UserSchema);
+const User = mongoose.model('Users', UserSchema);
 module.exports = User;
