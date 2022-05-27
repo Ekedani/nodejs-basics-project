@@ -1,15 +1,12 @@
+const createError = require('http-errors');
+/* eslint-disable */
+const mongoose = require('mongoose');
+
+const Book = require('../models/Book.Model');
+
 exports.getAllBooks = async (req, res, next) => {
   try {
-    const books = [
-      {
-        title: 'Found Book (1)',
-        author: 'Temp'
-      },
-      {
-        title: 'Found Book (2)',
-        author: 'Temp'
-      }
-    ];
+    const books = await Book.find({}, { __v: 0 });
     res.send(books);
   } catch (err) {
     next(err);
@@ -18,22 +15,21 @@ exports.getAllBooks = async (req, res, next) => {
 
 exports.createBook = async (req, res, next) => {
   try {
-    const book = {
-      title: 'Temp Title',
-      author: 'Temp'
-    };
-    res.send(book);
+    const book = new Book(req.body);
+    const result = await book.save();
+    res.send(result);
   } catch (err) {
     next(err);
   }
 };
 
 exports.findBookById = async (req, res, next) => {
+  const { id } = req.params;
   try {
-    const book = {
-      title: 'Found Book',
-      author: 'Temp'
-    };
+    const book = await Book.findById(id);
+    if (!book) {
+      throw createError(404, 'Book doesn`t exist.');
+    }
     res.send(book);
   } catch (err) {
     next(err);
@@ -41,24 +37,28 @@ exports.findBookById = async (req, res, next) => {
 };
 
 exports.deleteBook = async (req, res, next) => {
+  const id = req.params.id;
   try {
-    const book = {
-      title: 'Deleted Book',
-      author: 'Temp'
-    };
-    res.send(book);
+    const result = await Book.findByIdAndDelete(id);
+    if (!result) {
+      throw createError(404, 'Book doesn`t exist.');
+    }
+    res.send(result);
   } catch (err) {
     next(err);
   }
 };
 
 exports.updateBook = async (req, res, next) => {
+  const { id } = res.params;
+  const updates = req.body;
+  const options = { new: true };
   try {
-    const book = {
-      title: 'Updated Book',
-      author: 'Temp'
-    };
-    res.send(book);
+    const result = await Book.findByIdAndUpdate(id, updates, options);
+    if (!result) {
+      throw createError(404, 'Book doesn`t exist.');
+    }
+    res.send(result);
   } catch (err) {
     next(err);
   }
