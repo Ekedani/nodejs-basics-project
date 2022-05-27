@@ -6,7 +6,7 @@ const Book = require('../models/Book.Model');
 
 exports.getAllBooks = async (req, res, next) => {
   try {
-    const books = await Book.find({}, { __v: 0 });
+    const books = await Book.find();
     res.send(books);
   } catch (err) {
     next(err);
