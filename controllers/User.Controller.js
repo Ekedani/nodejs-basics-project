@@ -1,11 +1,9 @@
 const createError = require('http-errors');
-/* eslint-disable */
-const mongoose = require('mongoose');
 const User = require('../models/User.Model');
 
 exports.getAllUsers = async (req, res, next) => {
   try {
-    const users = await User.find();
+    const users = await User.find({});
     res.send(users);
   } catch (err) {
     next(err);
@@ -14,7 +12,7 @@ exports.getAllUsers = async (req, res, next) => {
 
 exports.createUser = async (req, res, next) => {
   try {
-    const user = new User.create(req.body);
+    const user = new User(req.body);
     const result = await user.save();
     res.send(result);
   } catch (err) {
@@ -25,7 +23,7 @@ exports.createUser = async (req, res, next) => {
 exports.findUserById = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const user = User.find({ id: id });
+    const user = await User.findById(id);
     res.send(user);
   } catch (err) {
     next(err);
@@ -35,7 +33,7 @@ exports.findUserById = async (req, res, next) => {
 exports.deleteUser = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const result = User.findByIdAndDelete(id);
+    const result = await User.findByIdAndDelete(id);
     if (!result) {
       throw createError(404, 'User not found');
     }
@@ -48,7 +46,8 @@ exports.deleteUser = async (req, res, next) => {
 exports.updateUser = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const result = User.findByIdAndUpdate(id);
+    const updated = new User(req.body);
+    const result = await User.findByIdAndUpdate(id, updated, { new: true });
     if (!result) {
       throw createError(404, 'User not found');
     }
