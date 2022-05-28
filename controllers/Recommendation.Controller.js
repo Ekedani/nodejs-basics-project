@@ -1,6 +1,6 @@
 const https = require('https');
 
-exports.getRandomBook = async (req, res) => {
+exports.getRandomBook = async (req, res, next) => {
   const pageNum = Math.floor(Math.random() * 2142 + 1);
   const options = {
     hostname: 'gutendex.com',
@@ -21,7 +21,7 @@ exports.getRandomBook = async (req, res) => {
     });
   });
   reqRand.on('error', (error) => {
-    res.send(error);
+    next(error);
   });
   reqRand.end();
 };
