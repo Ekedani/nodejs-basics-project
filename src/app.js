@@ -28,6 +28,7 @@ app.use((req, res, next) => {
 
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
+  // TODO: We can put here logger later
   res.status(err.status || 500);
   res.send({
     error: {
