@@ -2,6 +2,8 @@ const createError = require('http-errors');
 const mongoose = require('mongoose');
 const User = require('../models/User.Model');
 
+const NOT_FOUND_MSG = 'User not found';
+
 exports.getAllUsers = async (req, res, next) => {
   try {
     const users = await User.find({});
@@ -32,7 +34,7 @@ exports.findUserById = async (req, res, next) => {
     const { id } = req.params;
     const result = await User.findById(id);
     if (!result) {
-      throw createError(404, 'User not found');
+      throw createError(404, NOT_FOUND_MSG);
     }
     res.send(result);
   } catch (err) {
@@ -48,7 +50,7 @@ exports.deleteUser = async (req, res, next) => {
     const { id } = req.params;
     const result = await User.findByIdAndDelete(id);
     if (!result) {
-      throw createError(404, 'User not found');
+      throw createError(404, NOT_FOUND_MSG);
     }
     res.send(result);
   } catch (err) {
@@ -70,7 +72,7 @@ exports.updateUser = async (req, res, next) => {
     };
     const result = await User.findByIdAndUpdate(id, updated, { new: true });
     if (!result) {
-      throw createError(404, 'User not found');
+      throw createError(404, NOT_FOUND_MSG);
     }
     res.send(result);
   } catch (err) {

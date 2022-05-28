@@ -2,6 +2,8 @@ const createError = require('http-errors');
 const mongoose = require('mongoose');
 const Book = require('../models/Book.Model');
 
+const NOT_FOUND_MSG = 'Book not found';
+
 exports.getAllBooks = async (req, res, next) => {
   try {
     // TODO: Will be changed when auth will be implemented
@@ -49,7 +51,7 @@ exports.findBookById = async (req, res, next) => {
     const { id } = req.params;
     const result = await Book.findById(id);
     if (!result) {
-      throw createError(404, 'Book doesn`t exist.');
+      throw createError(404, NOT_FOUND_MSG);
     }
     res.send(result);
   } catch (err) {
@@ -69,7 +71,7 @@ exports.deleteBook = async (req, res, next) => {
     const { id } = req.params;
     const result = await Book.findByIdAndDelete(id);
     if (!result) {
-      throw createError(404, 'Book doesn`t exist.');
+      throw createError(404, NOT_FOUND_MSG);
     }
     res.send(result);
   } catch (err) {
@@ -94,7 +96,7 @@ exports.updateBook = async (req, res, next) => {
     };
     const result = await Book.findByIdAndUpdate(id, updated, { new: true });
     if (!result) {
-      throw createError(404, 'Book doesn`t exist.');
+      throw createError(404, NOT_FOUND_MSG);
     }
     res.send(result);
   } catch (err) {
