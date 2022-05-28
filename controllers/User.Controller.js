@@ -1,4 +1,5 @@
 const createError = require('http-errors');
+const mongoose = require('mongoose');
 const User = require('../models/User.Model');
 
 exports.getAllUsers = async (req, res, next) => {
@@ -6,6 +7,9 @@ exports.getAllUsers = async (req, res, next) => {
     const users = await User.find({});
     res.send(users);
   } catch (err) {
+    if (err instanceof mongoose.Error.ValidatorError) {
+      next(createError(400, err.message));
+    }
     next(err);
   }
 };
@@ -16,6 +20,9 @@ exports.createUser = async (req, res, next) => {
     const result = await user.save();
     res.send(result);
   } catch (err) {
+    if (err instanceof mongoose.Error.ValidatorError) {
+      next(createError(400, err.message));
+    }
     next(err);
   }
 };
@@ -29,6 +36,9 @@ exports.findUserById = async (req, res, next) => {
     }
     res.send(result);
   } catch (err) {
+    if (err instanceof mongoose.Error.ValidatorError) {
+      next(createError(400, err.message));
+    }
     next(err);
   }
 };
@@ -42,6 +52,9 @@ exports.deleteUser = async (req, res, next) => {
     }
     res.send(result);
   } catch (err) {
+    if (err instanceof mongoose.Error.ValidatorError) {
+      next(createError(400, err.message));
+    }
     next(err);
   }
 };
@@ -56,6 +69,9 @@ exports.updateUser = async (req, res, next) => {
     }
     res.send(result);
   } catch (err) {
+    if (err instanceof mongoose.Error.ValidatorError) {
+      next(createError(400, err.message));
+    }
     next(err);
   }
 };

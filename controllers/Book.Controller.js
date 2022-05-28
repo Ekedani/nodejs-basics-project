@@ -1,4 +1,5 @@
 const createError = require('http-errors');
+const mongoose = require('mongoose');
 const Book = require('../models/Book.Model');
 
 exports.getAllBooks = async (req, res, next) => {
@@ -10,6 +11,9 @@ exports.getAllBooks = async (req, res, next) => {
     const books = await Book.find({});
     res.send(books);
   } catch (err) {
+    if (err instanceof mongoose.Error.ValidatorError) {
+      next(createError(400, err.message));
+    }
     next(err);
   }
 };
@@ -29,6 +33,9 @@ exports.createBook = async (req, res, next) => {
     const result = await book.save();
     res.send(result);
   } catch (err) {
+    if (err instanceof mongoose.Error.ValidatorError) {
+      next(createError(400, err.message));
+    }
     next(err);
   }
 };
@@ -46,6 +53,9 @@ exports.findBookById = async (req, res, next) => {
     }
     res.send(result);
   } catch (err) {
+    if (err instanceof mongoose.Error.ValidatorError) {
+      next(createError(400, err.message));
+    }
     next(err);
   }
 };
@@ -63,6 +73,9 @@ exports.deleteBook = async (req, res, next) => {
     }
     res.send(result);
   } catch (err) {
+    if (err instanceof mongoose.Error.ValidatorError) {
+      next(createError(400, err.message));
+    }
     next(err);
   }
 };
@@ -81,6 +94,9 @@ exports.updateBook = async (req, res, next) => {
     }
     res.send(result);
   } catch (err) {
+    if (err instanceof mongoose.Error.ValidatorError) {
+      next(createError(400, err.message));
+    }
     next(err);
   }
 };
