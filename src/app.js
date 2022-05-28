@@ -1,4 +1,5 @@
 const express = require('express');
+const createError = require('http-errors');
 
 const bookRoutes = require('../routes/Book.Route');
 const userRoutes = require('../routes/User.Route');
@@ -19,6 +20,10 @@ app.get('/', (req, res) => {
   res.send({
     message: 'You can use /books prefix to test it'
   });
+});
+
+app.use((req, res, next) => {
+  next(createError(404, 'Not found'));
 });
 
 module.exports = app;
