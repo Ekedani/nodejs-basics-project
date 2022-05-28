@@ -18,7 +18,12 @@ exports.getAllUsers = async (req, res, next) => {
 
 exports.createUser = async (req, res, next) => {
   try {
-    const user = new User(req.body);
+    const user = new User({
+      name: req.body.name,
+      password: req.body.password,
+      email: req.body.email,
+      role: req.body.role
+    });
     const result = await user.save();
     res.send(result);
   } catch (err) {
