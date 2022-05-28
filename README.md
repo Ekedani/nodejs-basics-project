@@ -16,14 +16,6 @@ Technologies used:
 
 ## Database architecture
 
-![Book schema](./database/databaseArchitecture/book.drawio.png?raw=true 'Book')
-
----
-
-![User and role schema](./database/databaseArchitecture/user_role.drawio.png?raw=true 'User and Role')
-
----
-
-![Genral schema](./database/databaseArchitecture/generalArchitecture.drawio.png?raw=true 'General Architecture')
+![ER Diagram](./database/ER-Diagram.drawio.png?raw=true 'ER Diagram')
 
 _To be continued..._
