@@ -17,7 +17,9 @@ const UserSchema = new Schema({
     required: true
   },
   role: {
-    type: Number,
+    type: Schema.Types.ObjectId,
+    ref: 'users',
+    default: '629121cf23f06b34fd02ee72', // User-Role ID in our Database
     required: true
   }
 });
