@@ -1,7 +1,4 @@
 const createError = require('http-errors');
-/* eslint-disable */
-const mongoose = require('mongoose');
-
 const Book = require('../models/Book.Model');
 
 exports.getAllBooks = async (req, res, next) => {
@@ -37,7 +34,7 @@ exports.findBookById = async (req, res, next) => {
 };
 
 exports.deleteBook = async (req, res, next) => {
-  const id = req.params.id;
+  const { id } = req.params;
   try {
     const result = await Book.findByIdAndDelete(id);
     if (!result) {

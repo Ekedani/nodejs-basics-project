@@ -8,6 +8,9 @@ require('../database/databaseConection')();
 
 const app = express();
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.use('/books', bookRoutes);
 app.use('/users', userRoutes);
 app.use('/recommendation', recommendationRoutes);
