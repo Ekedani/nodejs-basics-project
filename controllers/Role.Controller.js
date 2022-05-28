@@ -1,5 +1,4 @@
 const createError = require('http-errors');
-/*eslint-disable */
 const mongoose = require('mongoose');
 const Role = require('../models/Role.Model');
 
