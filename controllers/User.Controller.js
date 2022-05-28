@@ -23,8 +23,11 @@ exports.createUser = async (req, res, next) => {
 exports.findUserById = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const user = await User.findById(id);
-    res.send(user);
+    const result = await User.findById(id);
+    if (!result) {
+      throw createError(404, 'User not found');
+    }
+    res.send(result);
   } catch (err) {
     next(err);
   }

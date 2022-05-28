@@ -23,11 +23,11 @@ exports.createBook = async (req, res, next) => {
 exports.findBookById = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const book = await Book.findById(id);
-    if (!book) {
+    const result = await Book.findById(id);
+    if (!result) {
       throw createError(404, 'Book doesn`t exist.');
     }
-    res.send(book);
+    res.send(result);
   } catch (err) {
     next(err);
   }
