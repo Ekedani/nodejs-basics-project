@@ -87,7 +87,11 @@ exports.updateBook = async (req, res, next) => {
     const user = '629121bd23f06b34fd02ee6f';
 
     const { id } = res.params;
-    const updated = req.body;
+    const updated = {
+      title: req.body.title,
+      author: req.body.author,
+      description: req.body.description
+    };
     const result = await Book.findByIdAndUpdate(id, updated, { new: true });
     if (!result) {
       throw createError(404, 'Book doesn`t exist.');

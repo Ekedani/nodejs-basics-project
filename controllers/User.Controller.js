@@ -62,7 +62,12 @@ exports.deleteUser = async (req, res, next) => {
 exports.updateUser = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const updated = new User(req.body);
+    const updated = {
+      name: req.body.name,
+      password: req.body.password,
+      email: req.body.email,
+      role: req.body.role
+    };
     const result = await User.findByIdAndUpdate(id, updated, { new: true });
     if (!result) {
       throw createError(404, 'User not found');
