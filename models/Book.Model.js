@@ -11,11 +11,14 @@ const BookSchema = new Schema({
     type: String,
     required: true
   },
+  description: {
+    type: String
+  },
   user: {
     type: Schema.Types.ObjectId,
-    ref: 'user'
+    ref: 'users'
   }
 });
 
-const BookModel = mongoose.model('book', BookSchema);
+const BookModel = mongoose.model('books', BookSchema);
 module.exports = BookModel;
