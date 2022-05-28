@@ -7,7 +7,7 @@ exports.getAllBooks = async (req, res, next) => {
     // eslint-disable-next-line no-unused-vars
     const user = '629121bd23f06b34fd02ee6f';
 
-    const books = await Book.find();
+    const books = await Book.find({});
     res.send(books);
   } catch (err) {
     next(err);
@@ -20,7 +20,12 @@ exports.createBook = async (req, res, next) => {
     // eslint-disable-next-line no-unused-vars
     const user = '629121bd23f06b34fd02ee6f';
 
-    const book = new Book(req.body);
+    const book = new Book({
+      title: req.body.title,
+      author: req.body.author,
+      description: req.body.description,
+      user
+    });
     const result = await book.save();
     res.send(result);
   } catch (err) {
