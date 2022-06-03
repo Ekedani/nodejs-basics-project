@@ -1,5 +1,6 @@
 const express = require('express');
 const createError = require('http-errors');
+const logger = require('../logs/logger');
 
 const bookRoutes = require('../routes/Book.Route');
 const shelfRoutes = require('../routes/Shelf.Route');
@@ -16,7 +17,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
-  console.log(`Resource requested: ${req.method} ${req.originalUrl}`);
+  logger.log({
+    message: `Resource requested: ${req.method} ${req.originalUrl}`,
+    level: 'info'
+  });
   next();
 });
 
@@ -39,12 +43,15 @@ app.use((req, res, next) => {
 
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
-  // TODO: We can put here logger later
+  logger.log({
+    message: `${err.message} (status code ${err.status || 500}`,
+    level: 'error'
+  });
   res.status(err.status || 500);
   res.send({
     error: {
       status: err.status || 500,
-      message: err.message
+      message: err.message || 'An error occured'
     }
   });
 });
