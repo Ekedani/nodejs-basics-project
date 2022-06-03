@@ -1,8 +1,10 @@
 const createError = require('http-errors');
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 const User = require('../models/User.Model');
 
 const NOT_FOUND_MSG = 'User not found';
+const SALT_ROUNDS = 10;
 
 exports.getAllUsers = async (req, res, next) => {
   try {
@@ -18,9 +20,10 @@ exports.getAllUsers = async (req, res, next) => {
 
 exports.createUser = async (req, res, next) => {
   try {
+    const password = await bcrypt.hash(req.body.password, SALT_ROUNDS);
     const user = new User({
       name: req.body.name,
-      password: req.body.password,
+      password,
       email: req.body.email,
       role: req.body.role
     });
@@ -71,10 +74,12 @@ exports.updateUser = async (req, res, next) => {
     const { id } = req.params;
     const updated = {
       name: req.body.name,
-      password: req.body.password,
       email: req.body.email,
       role: req.body.role
     };
+    if (req.body.password) {
+      updated.password = await bcrypt.hash(req.body.password, SALT_ROUNDS);
+    }
     const result = await User.findByIdAndUpdate(id, updated, { new: true });
     if (!result) {
       throw createError(404, NOT_FOUND_MSG);
