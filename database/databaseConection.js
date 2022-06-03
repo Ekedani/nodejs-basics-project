@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const logger = require('../logs/logger');
 
 module.exports = () => {
   const mongoPassword = process.env.CLUSTER_PASSWORD;
@@ -7,7 +8,15 @@ module.exports = () => {
   mongoose
     .connect(uri, { useNewUrlParser: true })
     .then(() => {
-      console.log('Mongodb connected....');
+      logger.log({
+        message: 'Connected to MongoDB',
+        level: 'info'
+      });
     })
-    .catch((err) => console.log(err.message));
+    .catch((err) => {
+      logger.log({
+        message: `MongoDB connection error: ${err.message}`,
+        level: 'error'
+      });
+    });
 };
