@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 // eslint-disable-next-line no-unused-vars
 const jwt = require('jsonwebtoken');
 const Shelf = require('../models/Shelf.Model');
+const Book = require('../models/Book.Model');
 
 const NOT_FOUND_MSG = 'Shelf not found';
 
@@ -107,6 +108,89 @@ exports.updateShelf = async (req, res, next) => {
     if (err instanceof mongoose.Error.ValidatorError) {
       next(createError(400, err.message));
     }
+    next(err);
+  }
+};
+
+exports.getBooksOnShelf = async (req, res, next) => {
+  try {
+    /* Uncomment this and info below when everything else will be ready
+    const { user } = jwt.decode(req.headers.authorization.substr(7)); */
+    const { id } = req.params;
+    const userid = '629121bd23f06b34fd02ee6f';
+    const shelf = Shelf.find({ id, user: userid });
+    if (!shelf) {
+      throw createError(404, NOT_FOUND_MSG);
+    }
+    const result = Book.find({ id: { $in: shelf.books } });
+    res.send(result);
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.addBookToShelf = async (req, res, next) => {
+  try {
+    /* Uncomment this and info below when everything else will be ready
+    const { user } = jwt.decode(req.headers.authorization.substr(7)); */
+
+    // eslint-disable-next-line no-unused-vars
+    const userid = '629121bd23f06b34fd02ee6f';
+    const { id } = req.params;
+    const { bookId } = req.body;
+    const book = await Book.findOne({
+      id: bookId,
+      user: userid
+    });
+    if (!book) {
+      throw createError(404, 'Book not found');
+    }
+    const shelf = await Shelf.findOne({
+      id,
+      user: userid
+    });
+    if (!shelf) {
+      throw createError(404, NOT_FOUND_MSG);
+    }
+    if (shelf.books.includes(bookId)) {
+      throw createError(400, 'This book is already on the shelf');
+    }
+    const result = await Shelf.findByIdAndUpdate(
+      id,
+      { $push: { books: bookId } },
+      { new: true }
+    );
+    res.send(result);
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.deleteBookFromShelf = async (req, res, next) => {
+  try {
+    /* Uncomment this and info below when everything else will be ready
+    const { user } = jwt.decode(req.headers.authorization.substr(7)); */
+
+    // eslint-disable-next-line no-unused-vars
+    const userid = '629121bd23f06b34fd02ee6f';
+    const { id, bookId } = req.params;
+    const shelf = await Shelf.findOne({
+      id,
+      user: userid
+    });
+    if (!shelf) {
+      throw createError(404, NOT_FOUND_MSG);
+    }
+    if (!shelf.books.includes(bookId)) {
+      throw createError(404, 'Book not found');
+    }
+    const result = await Shelf.findByIdAndUpdate(
+      id,
+      { $pull: { books: bookId } },
+      { new: true }
+    );
+    res.send(result);
+  } catch (err) {
     next(err);
   }
 };

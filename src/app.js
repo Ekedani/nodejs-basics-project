@@ -2,6 +2,7 @@ const express = require('express');
 const createError = require('http-errors');
 
 const bookRoutes = require('../routes/Book.Route');
+const shelfRoutes = require('../routes/Shelf.Route');
 const userRoutes = require('../routes/User.Route');
 const recommendationRoutes = require('../routes/Recommendation.Route');
 const rolesRoutes = require('../routes/Role.Route');
@@ -20,6 +21,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/books', bookRoutes);
+app.use('/shelves', shelfRoutes);
 app.use('/users', userRoutes);
 app.use('/recommendation', recommendationRoutes);
 app.use('/roles', rolesRoutes);
