@@ -5,6 +5,7 @@ const bookRoutes = require('../routes/Book.Route');
 const userRoutes = require('../routes/User.Route');
 const recommendationRoutes = require('../routes/Recommendation.Route');
 const rolesRoutes = require('../routes/Role.Route');
+const authRoutes = require('../routes/Auth.Route');
 
 require('../database/databaseConection')();
 
@@ -17,6 +18,7 @@ app.use('/books', bookRoutes);
 app.use('/users', userRoutes);
 app.use('/recommendation', recommendationRoutes);
 app.use('/roles', rolesRoutes);
+app.use('/auth', authRoutes);
 
 app.get('/', (req, res) => {
   res.send({
