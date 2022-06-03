@@ -118,11 +118,14 @@ exports.getBooksOnShelf = async (req, res, next) => {
     const { user } = jwt.decode(req.headers.authorization.substr(7)); */
     const { id } = req.params;
     const userid = '629121bd23f06b34fd02ee6f';
-    const shelf = Shelf.find({ id, user: userid });
+    const shelf = await Shelf.findOne({
+      _id: id,
+      user: userid
+    });
     if (!shelf) {
       throw createError(404, NOT_FOUND_MSG);
     }
-    const result = Book.find({ id: { $in: shelf.books } });
+    const result = await Book.find({ _id: { $in: shelf.books } });
     res.send(result);
   } catch (err) {
     next(err);
@@ -139,7 +142,7 @@ exports.addBookToShelf = async (req, res, next) => {
     const { id } = req.params;
     const { bookId } = req.body;
     const book = await Book.findOne({
-      id: bookId,
+      _id: bookId,
       user: userid
     });
     if (!book) {
@@ -175,7 +178,7 @@ exports.deleteBookFromShelf = async (req, res, next) => {
     const userid = '629121bd23f06b34fd02ee6f';
     const { id, bookId } = req.params;
     const shelf = await Shelf.findOne({
-      id,
+      _id: id,
       user: userid
     });
     if (!shelf) {
