@@ -1,18 +1,17 @@
 const createError = require('http-errors');
+/*eslint-disable */
 const mongoose = require('mongoose');
-// eslint-disable-next-line no-unused-vars
-const jwt = require('jsonwebtoken');
 const Book = require('../models/Book.Model');
 
 const NOT_FOUND_MSG = 'Book not found';
 
 exports.getAllBooks = async (req, res, next) => {
   try {
-    /* Uncomment this and info below when everything else will be ready
-    const { user } = jwt.decode(req.headers.authorization.substr(7)); */
-
+    // TODO: Will be changed when auth will be implemented
+    // eslint-disable-next-line no-unused-vars
     const user = '629121bd23f06b34fd02ee6f';
-    const books = await Book.find({ user });
+
+    const books = await Book.find({});
     res.send(books);
   } catch (err) {
     if (err instanceof mongoose.Error.ValidatorError) {
@@ -24,16 +23,15 @@ exports.getAllBooks = async (req, res, next) => {
 
 exports.createBook = async (req, res, next) => {
   try {
-    /* Uncomment this and info below when everything else will be ready
-    const { user } = jwt.decode(req.headers.authorization.substr(7)); */
-
+    // TODO: Will be changed when auth will be implemented
+    // eslint-disable-next-line no-unused-vars
     const user = '629121bd23f06b34fd02ee6f';
+
     const book = new Book({
       title: req.body.title,
       author: req.body.author,
       description: req.body.description,
       user
-      // user: user.id
     });
     const result = await book.save();
     res.send(result);
@@ -47,11 +45,10 @@ exports.createBook = async (req, res, next) => {
 
 exports.findBookById = async (req, res, next) => {
   try {
-    /* Uncomment this and info below when everything else will be ready
-    const { user } = jwt.decode(req.headers.authorization.substr(7)); */
-
+    // TODO: Will be changed when auth will be implemented
     // eslint-disable-next-line no-unused-vars
     const user = '629121bd23f06b34fd02ee6f';
+
     const { id } = req.params;
     const result = await Book.findById(id);
     if (!result) {
@@ -68,11 +65,10 @@ exports.findBookById = async (req, res, next) => {
 
 exports.deleteBook = async (req, res, next) => {
   try {
-    /* Uncomment this and info below when everything else will be ready
-    const { user } = jwt.decode(req.headers.authorization.substr(7)); */
-
+    // TODO: Will be changed when auth will be implemented
     // eslint-disable-next-line no-unused-vars
     const user = '629121bd23f06b34fd02ee6f';
+
     const { id } = req.params;
     const result = await Book.findByIdAndDelete(id);
     if (!result) {
@@ -89,12 +85,11 @@ exports.deleteBook = async (req, res, next) => {
 
 exports.updateBook = async (req, res, next) => {
   try {
-    /* Uncomment this and info below when everything else will be ready
-    const { user } = jwt.decode(req.headers.authorization.substr(7)); */
-
+    // TODO: Will be changed when auth will be implemented
     // eslint-disable-next-line no-unused-vars
     const user = '629121bd23f06b34fd02ee6f';
-    const { id } = res.params;
+
+    const { id } = req.params;
     const updated = {
       title: req.body.title,
       author: req.body.author,
