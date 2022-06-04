@@ -94,7 +94,7 @@ exports.updateShelf = async (req, res, next) => {
 
     // eslint-disable-next-line no-unused-vars
     const user = '629121bd23f06b34fd02ee6f';
-    const { id } = res.params;
+    const { id } = req.params;
     const updated = {
       name: req.body.name,
       tags: req.body.tags
@@ -149,7 +149,7 @@ exports.addBookToShelf = async (req, res, next) => {
       throw createError(404, 'Book not found');
     }
     const shelf = await Shelf.findOne({
-      id,
+      _id: id,
       user: userid
     });
     if (!shelf) {

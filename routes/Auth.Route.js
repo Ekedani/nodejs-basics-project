@@ -7,8 +7,10 @@ const router = express.Router();
 
 router.post('/register', AuthController.register);
 router.post('/login', AuthController.login);
+
 router.use(bearerMiddleware);
 router.use(authMiddleware);
+
 // This terrible naming is temporary
 router.put('/password', AuthController.changePassword);
 
