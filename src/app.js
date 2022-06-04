@@ -24,12 +24,16 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use('/auth', authRoutes);
+
+// Required authorization
 app.use('/books', bookRoutes);
 app.use('/shelves', shelfRoutes);
-app.use('/users', userRoutes);
 app.use('/recommendation', recommendationRoutes);
+
+// Required admin rules
+app.use('/users', userRoutes);
 app.use('/roles', rolesRoutes);
-app.use('/auth', authRoutes);
 
 app.get('/', (req, res) => {
   res.send({
