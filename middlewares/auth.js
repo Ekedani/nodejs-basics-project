@@ -14,6 +14,9 @@ module.exports = (req, res, next) => {
     if (err instanceof jwt.JsonWebTokenError) {
       next(createError(401, err.message));
     }
+    if (!err.status) {
+      next(createError(401, 'Invalid token'));
+    }
     next(err);
   }
   next();
