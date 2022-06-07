@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const createError = require('http-errors');
 const User = require('../models/User.Model');
+const Role = require('../models/Role.Model');
 
 const { JWT_SECRET } = process.env;
 const SALT_ROUNDS = 10;
@@ -38,13 +39,17 @@ exports.login = async (req, res, next) => {
     if (!user) {
       throw createError(400, 'This account does not exist');
     }
+    const roleName = await Role.findById({ _id: user.role }).select('name');
     const comparisonResult = await bcrypt.compare(password, user.password);
     if (comparisonResult) {
       const userTokenData = {
         id: user.id,
         name: user.name,
         email: user.email,
-        role: user.role
+        role: {
+          id: user.role,
+          name: roleName
+        }
       };
       const token = jwt.sign({ user: userTokenData }, JWT_SECRET, {
         expiresIn: '1h'
