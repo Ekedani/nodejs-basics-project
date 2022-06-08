@@ -3,6 +3,10 @@ const createError = require('http-errors');
 
 const { JWT_SECRET } = process.env;
 
+/* This middleware checks:
+If user is authorized (has a bearer token)
+If token is valid
+If token isn't expired */
 module.exports = (req, res, next) => {
   try {
     if (req.headers.authorization) {

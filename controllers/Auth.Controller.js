@@ -39,17 +39,14 @@ exports.login = async (req, res, next) => {
     if (!user) {
       throw createError(400, 'This account does not exist');
     }
-    const roleName = await Role.findById({ _id: user.role }).select('name');
+    const role = await Role.findById({ _id: user.role }).select('name -_id');
     const comparisonResult = await bcrypt.compare(password, user.password);
     if (comparisonResult) {
       const userTokenData = {
         id: user.id,
         name: user.name,
         email: user.email,
-        role: {
-          id: user.role,
-          name: roleName
-        }
+        role: role.name
       };
       const token = jwt.sign({ user: userTokenData }, JWT_SECRET, {
         expiresIn: '1h'
