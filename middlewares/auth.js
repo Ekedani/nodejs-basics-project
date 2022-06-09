@@ -16,7 +16,10 @@ module.exports = (req, res, next) => {
     req.token = jwt.verify(token, JWT_SECRET);
     next();
   } catch (err) {
-    if (err instanceof jwt.JsonWebTokenError) {
+    if (
+      err instanceof jwt.JsonWebTokenError ||
+      err instanceof jwt.TokenExpiredError
+    ) {
       next(createError(401, err.message));
     }
     if (!err.status) {

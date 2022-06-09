@@ -10,7 +10,8 @@
     "ecmaVersion": "latest"
   },
   "rules": {
-    "comma-dangle": ["error", "never"]
+    "comma-dangle": ["error", "never"],
+    "operator-linebreak": "off"
   },
   "settings": {
     "import/resolver": {
