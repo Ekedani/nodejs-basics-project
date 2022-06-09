@@ -59,15 +59,3 @@ exports.login = async (req, res, next) => {
     next(err);
   }
 };
-
-exports.changePassword = async (req, res, next) => {
-  try {
-    const { user } = jwt.decode(req.headers.authorization);
-    const password = await bcrypt.hash(req.body.password, SALT_ROUNDS);
-    const updated = { password };
-    await User.findByIdAndUpdate(user.id, updated, { new: true });
-    res.send({ message: 'Password was successfully changed' });
-  } catch (err) {
-    next(err);
-  }
-};

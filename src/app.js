@@ -8,6 +8,9 @@ const userRoutes = require('../routes/User.Route');
 const recommendationRoutes = require('../routes/Recommendation.Route');
 const rolesRoutes = require('../routes/Role.Route');
 const authRoutes = require('../routes/Auth.Route');
+const accountRoutes = require('../routes/Account.Route');
+
+const authMiddleware = require('../middlewares/auth');
 
 require('../database/databaseConection')();
 
@@ -27,6 +30,10 @@ app.use((req, res, next) => {
 app.use('/auth', authRoutes);
 
 // Required authorization
+
+app.use(authMiddleware);
+
+app.use('/account', accountRoutes);
 app.use('/books', bookRoutes);
 app.use('/shelves', shelfRoutes);
 app.use('/recommendation', recommendationRoutes);
@@ -37,7 +44,7 @@ app.use('/roles', rolesRoutes);
 
 app.get('/', (req, res) => {
   res.send({
-    message: 'You can use /books prefix to test it'
+    message: 'We can later make an html with all routes lol'
   });
 });
 

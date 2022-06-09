@@ -3,17 +3,18 @@ const createError = require('http-errors');
 
 const { JWT_SECRET } = process.env;
 
-/* This middleware checks:
-If user is authorized (has a bearer token)
-If token is valid
-If token isn't expired */
 module.exports = (req, res, next) => {
   try {
-    if (req.headers.authorization) {
-      jwt.verify(req.headers.authorization, JWT_SECRET);
-    } else {
+    if (!req.headers.authorization) {
       throw createError(401, 'Authorization token must be provided');
     }
+    const type = req.headers.authorization.split(' ')[0];
+    const token = req.headers.authorization.split(' ')[1];
+    if (type !== 'Bearer' || !token) {
+      throw new Error('Authentication failed');
+    }
+    req.token = jwt.verify(token, JWT_SECRET);
+    next();
   } catch (err) {
     if (err instanceof jwt.JsonWebTokenError) {
       next(createError(401, err.message));
@@ -23,5 +24,4 @@ module.exports = (req, res, next) => {
     }
     next(err);
   }
-  next();
 };
