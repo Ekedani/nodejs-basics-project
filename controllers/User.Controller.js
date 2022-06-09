@@ -92,3 +92,21 @@ exports.updateUser = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.changePassword = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { newPassword } = req.body;
+    const user = await User.findById(id);
+
+    // TODO: Add password validation and sanitizing
+
+    const newPasswordHash = await bcrypt.hash(newPassword, SALT_ROUNDS);
+    await User.findByIdAndUpdate(user.id, { password: newPasswordHash });
+    res.send({
+      message: `Password was successfully changed for user with id ${id}`
+    });
+  } catch (err) {
+    next(err);
+  }
+};
