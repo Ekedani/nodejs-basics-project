@@ -47,17 +47,29 @@ app.use((req, res, next) => {
 
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
-  logger.log({
-    message: `${err.message} (status code ${err.status || 500})`,
-    level: 'error'
-  });
-  res.status(err.status || 500);
-  res.send({
-    error: {
+  const errors = [];
+  if (!Array.isArray(err)) {
+    errors.push({
       status: err.status || 500,
       message: err.message || 'An error occured'
-    }
+    });
+  } else {
+    err.forEach((x) => {
+      errors.push({
+        status: x.status || 500,
+        message: x.message || 'An error occured'
+      });
+    });
+  }
+  errors.forEach((x) => {
+    logger.log({
+      message: `${x.message} (status code ${x.status || 500})`,
+      level: 'error'
+    });
   });
+
+  res.status(errors[0].status || 500);
+  res.send({ errors });
 });
 
 module.exports = app;
