@@ -1,5 +1,4 @@
 const createError = require('http-errors');
-/*eslint-disable */
 const mongoose = require('mongoose');
 const Book = require('../models/Book.Model');
 
@@ -7,11 +6,8 @@ const NOT_FOUND_MSG = 'Book not found';
 
 exports.getAllBooks = async (req, res, next) => {
   try {
-    // TODO: Will be changed when auth will be implemented
-    // eslint-disable-next-line no-unused-vars
-    const user = '629121bd23f06b34fd02ee6f';
-
-    const books = await Book.find({});
+    const { user } = req.token;
+    const books = await Book.find({ user: user.id });
     res.send(books);
   } catch (err) {
     if (err instanceof mongoose.Error.ValidatorError) {
@@ -23,15 +19,12 @@ exports.getAllBooks = async (req, res, next) => {
 
 exports.createBook = async (req, res, next) => {
   try {
-    // TODO: Will be changed when auth will be implemented
-    // eslint-disable-next-line no-unused-vars
-    const user = '629121bd23f06b34fd02ee6f';
-
+    const { user } = req.token;
     const book = new Book({
       title: req.body.title,
       author: req.body.author,
       description: req.body.description,
-      user
+      user: user.id
     });
     const result = await book.save();
     res.send(result);
@@ -45,12 +38,9 @@ exports.createBook = async (req, res, next) => {
 
 exports.findBookById = async (req, res, next) => {
   try {
-    // TODO: Will be changed when auth will be implemented
-    // eslint-disable-next-line no-unused-vars
-    const user = '629121bd23f06b34fd02ee6f';
-
+    const { user } = req.token;
     const { id } = req.params;
-    const result = await Book.findById(id);
+    const result = await Book.findOne({ _id: id, user: user.id });
     if (!result) {
       throw createError(404, NOT_FOUND_MSG);
     }
@@ -65,12 +55,9 @@ exports.findBookById = async (req, res, next) => {
 
 exports.deleteBook = async (req, res, next) => {
   try {
-    // TODO: Will be changed when auth will be implemented
-    // eslint-disable-next-line no-unused-vars
-    const user = '629121bd23f06b34fd02ee6f';
-
+    const { user } = req.token;
     const { id } = req.params;
-    const result = await Book.findByIdAndDelete(id);
+    const result = await Book.findOneAndDelete({ _id: id, user: user.id });
     if (!result) {
       throw createError(404, NOT_FOUND_MSG);
     }
@@ -85,17 +72,18 @@ exports.deleteBook = async (req, res, next) => {
 
 exports.updateBook = async (req, res, next) => {
   try {
-    // TODO: Will be changed when auth will be implemented
-    // eslint-disable-next-line no-unused-vars
-    const user = '629121bd23f06b34fd02ee6f';
-
+    const { user } = req.token;
     const { id } = req.params;
     const updated = {
       title: req.body.title,
       author: req.body.author,
       description: req.body.description
     };
-    const result = await Book.findByIdAndUpdate(id, updated, { new: true });
+    const result = await Book.findOneAndUpdate(
+      { _id: id, user: user.id },
+      updated,
+      { new: true }
+    );
     if (!result) {
       throw createError(404, NOT_FOUND_MSG);
     }
