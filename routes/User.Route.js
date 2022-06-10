@@ -13,5 +13,6 @@ router.patch('/:id', UserController.updateUser);
 router.delete('/:id', UserController.deleteUser);
 
 router.put('/:id/password', UserController.changePassword);
+router.post('/:id/admin-permissions', UserController.grantAdminPermissions);
 
 module.exports = router;

@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const EmailValidator = require('email-validator');
 const User = require('../models/User.Model');
+const Role = require('../models/Role.Model');
 const validatePassword = require('../helpers/validatePassword');
 
 const NOT_FOUND_MSG = 'User not found';
@@ -116,6 +117,29 @@ exports.changePassword = async (req, res, next) => {
     await User.findByIdAndUpdate(user.id, { password: newPasswordHash });
     res.send({
       message: `Password was successfully changed for user with id ${id}`
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.grantAdminPermissions = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findById(id);
+    if (!user) {
+      throw createError(404, NOT_FOUND_MSG);
+    }
+    const adminRole = await Role.findOne({ name: 'admin' });
+    if (!adminRole) {
+      throw createError(404, 'Admin role is not implemented in the database');
+    }
+    if (user.role === adminRole.id) {
+      throw createError(400, 'User already has admin permissions');
+    }
+    await User.findByIdAndUpdate(id, { role: adminRole.id });
+    res.send({
+      message: `Admin role was successfully granted to user with id ${id}`
     });
   } catch (err) {
     next(err);
