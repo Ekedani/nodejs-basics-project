@@ -10,12 +10,9 @@ const rolesRoutes = require('../routes/Role.Route');
 const authRoutes = require('../routes/Auth.Route');
 const accountRoutes = require('../routes/Account.Route');
 
-const authMiddleware = require('../middlewares/auth');
-
 require('../database/databaseConection')();
 
 const app = express();
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -35,15 +32,10 @@ app.get('/', (req, res) => {
 });
 
 app.use('/auth', authRoutes);
-
-// Required authorization
-app.use(authMiddleware);
 app.use('/account', accountRoutes);
 app.use('/books', bookRoutes);
 app.use('/shelves', shelfRoutes);
 app.use('/recommendation', recommendationRoutes);
-
-// Required authorization and admin rules
 app.use('/users', userRoutes);
 app.use('/roles', rolesRoutes);
 

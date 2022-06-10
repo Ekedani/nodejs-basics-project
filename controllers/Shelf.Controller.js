@@ -1,7 +1,5 @@
 const createError = require('http-errors');
 const mongoose = require('mongoose');
-// eslint-disable-next-line no-unused-vars
-const jwt = require('jsonwebtoken');
 const Shelf = require('../models/Shelf.Model');
 const Book = require('../models/Book.Model');
 

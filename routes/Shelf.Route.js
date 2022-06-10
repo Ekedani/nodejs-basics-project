@@ -1,8 +1,10 @@
 const express = require('express');
 const ShelfController = require('../controllers/Shelf.Controller');
+const authMiddleware = require('../middlewares/auth');
 
 const router = express.Router();
 
+router.use(authMiddleware);
 router.get('/', ShelfController.getAllShelves);
 router.get('/:id', ShelfController.findShelfById);
 router.post('/', ShelfController.createShelf);
