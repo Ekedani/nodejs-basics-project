@@ -28,7 +28,9 @@ exports.register = async (req, res, next) => {
       email: result.email,
       role: result.role
     };
-    const token = jwt.sign({ userTokenData }, JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ user: userTokenData }, JWT_SECRET, {
+      expiresIn: '1h'
+    });
     res.send({
       message: 'Account has been successfully created',
       token
