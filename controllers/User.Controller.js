@@ -1,8 +1,9 @@
 const createError = require('http-errors');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const PasswordValidator = require('password-validator');
+const EmailValidator = require('email-validator');
 const User = require('../models/User.Model');
+const validatePassword = require('../helpers/validatePassword');
 
 const NOT_FOUND_MSG = 'User not found';
 const SALT_ROUNDS = 10;
@@ -21,6 +22,10 @@ exports.getAllUsers = async (req, res, next) => {
 
 exports.createUser = async (req, res, next) => {
   try {
+    if (!EmailValidator.validate(req.body.email)) {
+      throw createError(400, 'Invalid email');
+    }
+    validatePassword(req.body.password);
     const password = await bcrypt.hash(req.body.password, SALT_ROUNDS);
     const user = new User({
       name: req.body.name,
@@ -75,10 +80,16 @@ exports.updateUser = async (req, res, next) => {
     const { id } = req.params;
     const updated = {
       name: req.body.name,
-      email: req.body.email,
       role: req.body.role
     };
+    if (req.body.email) {
+      if (!EmailValidator.validate(req.body.email)) {
+        throw createError(400, 'Invalid email');
+      }
+      updated.email = req.body.email;
+    }
     if (req.body.password) {
+      validatePassword(req.body.password);
       updated.password = await bcrypt.hash(req.body.password, SALT_ROUNDS);
     }
     const result = await User.findByIdAndUpdate(id, updated, { new: true });
@@ -100,16 +111,7 @@ exports.changePassword = async (req, res, next) => {
     const { newPassword } = req.body;
     const user = await User.findById(id);
 
-    const passwordSchema = new PasswordValidator();
-    passwordSchema.is().min(4).is().max(50).has().not().spaces();
-
-    if (!passwordSchema.validate(newPassword)) {
-      throw createError(
-        400,
-        'Password length must be between 4 and 50; no spaces must be present in the password'
-      );
-    }
-
+    validatePassword(newPassword);
     const newPasswordHash = await bcrypt.hash(newPassword, SALT_ROUNDS);
     await User.findByIdAndUpdate(user.id, { password: newPasswordHash });
     res.send({
