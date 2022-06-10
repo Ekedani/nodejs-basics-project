@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const createError = require('http-errors');
+const PasswordValidator = require('password-validator');
 const User = require('../models/User.Model');
 const Role = require('../models/Role.Model');
 
@@ -9,6 +10,15 @@ const SALT_ROUNDS = 10;
 
 exports.register = async (req, res, next) => {
   try {
+    const passwordSchema = new PasswordValidator();
+    passwordSchema.is().min(4).is().max(50).has().not().spaces();
+
+    if (!passwordSchema.validate(req.body.password)) {
+      throw createError(
+        400,
+        'Password length must be between 4 and 50; no spaces must be present in the password'
+      );
+    }
     const password = await bcrypt.hash(req.body.password, SALT_ROUNDS);
     const user = new User({
       name: req.body.name,

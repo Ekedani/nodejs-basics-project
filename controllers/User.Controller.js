@@ -1,6 +1,7 @@
 const createError = require('http-errors');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const PasswordValidator = require('password-validator');
 const User = require('../models/User.Model');
 
 const NOT_FOUND_MSG = 'User not found';
@@ -99,7 +100,15 @@ exports.changePassword = async (req, res, next) => {
     const { newPassword } = req.body;
     const user = await User.findById(id);
 
-    // TODO: Add password validation and sanitizing
+    const passwordSchema = new PasswordValidator();
+    passwordSchema.is().min(4).is().max(50).has().not().spaces();
+
+    if (!passwordSchema.validate(newPassword)) {
+      throw createError(
+        400,
+        'Password length must be between 4 and 50; no spaces must be present in the password'
+      );
+    }
 
     const newPasswordHash = await bcrypt.hash(newPassword, SALT_ROUNDS);
     await User.findByIdAndUpdate(user.id, { password: newPasswordHash });
