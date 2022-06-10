@@ -27,26 +27,25 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get('/', (req, res) => {
+  res.send({
+    message:
+      'You should login or register and then use any of implemented endpoints'
+  });
+});
+
 app.use('/auth', authRoutes);
 
 // Required authorization
-
 app.use(authMiddleware);
-
 app.use('/account', accountRoutes);
 app.use('/books', bookRoutes);
 app.use('/shelves', shelfRoutes);
 app.use('/recommendation', recommendationRoutes);
 
-// Required admin rules
+// Required authorization and admin rules
 app.use('/users', userRoutes);
 app.use('/roles', rolesRoutes);
-
-app.get('/', (req, res) => {
-  res.send({
-    message: 'We can later make an html with all routes lol'
-  });
-});
 
 app.use((req, res, next) => {
   next(createError(404, 'Not found'));
