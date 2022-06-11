@@ -8,15 +8,13 @@ module.exports = () => {
   mongoose
     .connect(uri, { useNewUrlParser: true })
     .then(() => {
-      logger.log({
-        message: 'Connected to MongoDB',
-        level: 'info'
+      logger.info({
+        message: 'Connected to MongoDB'
       });
     })
     .catch((err) => {
-      logger.log({
-        message: `MongoDB connection error: ${err.message}`,
-        level: 'error'
+      logger.error({
+        message: `MongoDB connection error: ${err.message}`
       });
     });
 };

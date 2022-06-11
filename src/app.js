@@ -17,9 +17,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
-  logger.log({
-    message: `Resource requested: ${req.method} ${req.originalUrl}`,
-    level: 'info'
+  logger.info({
+    message: `Resource requested: ${req.method} ${req.originalUrl}`
   });
   next();
 });
@@ -60,9 +59,8 @@ app.use((err, req, res, next) => {
     });
   }
   errors.forEach((x) => {
-    logger.log({
-      message: `${x.message} (status code ${x.status || 500})`,
-      level: 'error'
+    logger.error({
+      message: `${x.message} (status code ${x.status || 500})`
     });
   });
 
