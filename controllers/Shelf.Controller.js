@@ -7,11 +7,8 @@ const NOT_FOUND_MSG = 'Shelf not found';
 
 exports.getAllShelves = async (req, res, next) => {
   try {
-    /* Uncomment this and info below when everything else will be ready
-    const { user } = jwt.decode(req.headers.authorization.substr(7)); */
-
-    const user = '629121bd23f06b34fd02ee6f';
-    const shelves = await Shelf.find({ user });
+    const { user } = req.token;
+    const shelves = await Shelf.find({ user: user.id });
     res.send(shelves);
   } catch (err) {
     if (err instanceof mongoose.Error.ValidatorError) {
@@ -23,15 +20,11 @@ exports.getAllShelves = async (req, res, next) => {
 
 exports.createShelf = async (req, res, next) => {
   try {
-    /* Uncomment this and info below when everything else will be ready
-    const { user } = jwt.decode(req.headers.authorization.substr(7)); */
-
-    const user = '629121bd23f06b34fd02ee6f';
+    const { user } = req.token;
     const shelf = new Shelf({
       name: req.body.name,
       tags: req.body.tags,
-      user
-      // user: user.id
+      user: user.id
     });
     const result = await shelf.save();
     res.send(result);
@@ -45,13 +38,12 @@ exports.createShelf = async (req, res, next) => {
 
 exports.findShelfById = async (req, res, next) => {
   try {
-    /* Uncomment this and info below when everything else will be ready
-    const { user } = jwt.decode(req.headers.authorization.substr(7)); */
-
-    // eslint-disable-next-line no-unused-vars
-    const user = '629121bd23f06b34fd02ee6f';
+    const { user } = req.token;
     const { id } = req.params;
-    const result = await Shelf.findById(id);
+    const result = await Shelf.findOne({
+      _id: id,
+      user: user.id
+    });
     if (!result) {
       throw createError(404, NOT_FOUND_MSG);
     }
@@ -66,13 +58,12 @@ exports.findShelfById = async (req, res, next) => {
 
 exports.deleteShelf = async (req, res, next) => {
   try {
-    /* Uncomment this and info below when everything else will be ready
-    const { user } = jwt.decode(req.headers.authorization.substr(7)); */
-
-    // eslint-disable-next-line no-unused-vars
-    const user = '629121bd23f06b34fd02ee6f';
+    const { user } = req.token;
     const { id } = req.params;
-    const result = await Shelf.findByIdAndDelete(id);
+    const result = await Shelf.findOneAndDelete({
+      _id: id,
+      user: user.id
+    });
     if (!result) {
       throw createError(404, NOT_FOUND_MSG);
     }
@@ -87,17 +78,20 @@ exports.deleteShelf = async (req, res, next) => {
 
 exports.updateShelf = async (req, res, next) => {
   try {
-    /* Uncomment this and info below when everything else will be ready
-    const { user } = jwt.decode(req.headers.authorization.substr(7)); */
-
-    // eslint-disable-next-line no-unused-vars
-    const user = '629121bd23f06b34fd02ee6f';
+    const { user } = req.token;
     const { id } = req.params;
     const updated = {
       name: req.body.name,
       tags: req.body.tags
     };
-    const result = await Shelf.findByIdAndUpdate(id, updated, { new: true });
+    const result = await Shelf.findOneAndUpdate(
+      {
+        _id: id,
+        user: user.id
+      },
+      updated,
+      { new: true }
+    );
     if (!result) {
       throw createError(404, NOT_FOUND_MSG);
     }
@@ -112,13 +106,11 @@ exports.updateShelf = async (req, res, next) => {
 
 exports.getBooksOnShelf = async (req, res, next) => {
   try {
-    /* Uncomment this and info below when everything else will be ready
-    const { user } = jwt.decode(req.headers.authorization.substr(7)); */
+    const { user } = req.token;
     const { id } = req.params;
-    const userid = '629121bd23f06b34fd02ee6f';
     const shelf = await Shelf.findOne({
       _id: id,
-      user: userid
+      user: user.id
     });
     if (!shelf) {
       throw createError(404, NOT_FOUND_MSG);
@@ -132,23 +124,19 @@ exports.getBooksOnShelf = async (req, res, next) => {
 
 exports.addBookToShelf = async (req, res, next) => {
   try {
-    /* Uncomment this and info below when everything else will be ready
-    const { user } = jwt.decode(req.headers.authorization.substr(7)); */
-
-    // eslint-disable-next-line no-unused-vars
-    const userid = '629121bd23f06b34fd02ee6f';
+    const { user } = req.token;
     const { id } = req.params;
     const { bookId } = req.body;
     const book = await Book.findOne({
       _id: bookId,
-      user: userid
+      user: user.id
     });
     if (!book) {
       throw createError(404, 'Book not found');
     }
     const shelf = await Shelf.findOne({
       _id: id,
-      user: userid
+      user: user.id
     });
     if (!shelf) {
       throw createError(404, NOT_FOUND_MSG);
@@ -169,15 +157,11 @@ exports.addBookToShelf = async (req, res, next) => {
 
 exports.deleteBookFromShelf = async (req, res, next) => {
   try {
-    /* Uncomment this and info below when everything else will be ready
-    const { user } = jwt.decode(req.headers.authorization.substr(7)); */
-
-    // eslint-disable-next-line no-unused-vars
-    const userid = '629121bd23f06b34fd02ee6f';
+    const { user } = req.token;
     const { id, bookId } = req.params;
     const shelf = await Shelf.findOne({
       _id: id,
-      user: userid
+      user: user.id
     });
     if (!shelf) {
       throw createError(404, NOT_FOUND_MSG);
