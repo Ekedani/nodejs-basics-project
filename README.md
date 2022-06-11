@@ -12,7 +12,7 @@ Technologies used:
 - **JavaScript** – was chosen by us as the compiler because, unlike Typescript, our team has little experience with it
 - **Express** – this framework was chosen because of its ease of use by beginners. It can reduce the coding time by half
   and still help us build efficient web applications
-- **MongoDB** – (the final decision will be made when developing laboratory work #3) ...
+- **MongoDB** – because of its convenience, ease of use and good compatibility with JS
 
 ## Database architecture
 
